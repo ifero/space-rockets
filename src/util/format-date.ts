@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 /// To resolve issue on Android: https://github.com/lingui/js-lingui/issues/442#issuecomment-699202352
 if (typeof Intl === 'undefined') {
   require('intl');
@@ -14,12 +16,10 @@ export function formatDate(timestamp: string) {
 }
 
 export function formatDateTime(timestamp: string) {
-  return new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    timeZoneName: 'short',
-  }).format(new Date(timestamp));
+  return DateTime.fromISO(timestamp, { setZone: true }).toFormat(
+    "MMMM dd, yyyy, h:mm a 'UTC'Z",
+    {
+      locale: 'en-US',
+    }
+  );
 }
