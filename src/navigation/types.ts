@@ -1,3 +1,3 @@
 export interface ComponentId {
-    componentId: string
+  componentId: string;
 }
