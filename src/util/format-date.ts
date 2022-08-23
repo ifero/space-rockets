@@ -16,10 +16,9 @@ export function formatDate(timestamp: string) {
 }
 
 export function formatDateTime(timestamp: string) {
-  return DateTime.fromISO(timestamp, { setZone: true }).toFormat(
-    "MMMM dd, yyyy, h:mm a 'UTC'Z",
-    {
+  return DateTime.fromISO(timestamp, { setZone: true })
+    .toFormat("MMMM dd, yyyy, h:mm a 'UTC'Z", {
       locale: 'en-US',
-    }
-  );
+    })
+    .replace(/\+0/, '');
 }
