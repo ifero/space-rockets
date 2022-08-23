@@ -1,3 +1,3 @@
-const {registerScreens} = require('./src/navigation/navigation');
+const { registerScreens } = require('./src/navigation/navigation');
 
 registerScreens();
