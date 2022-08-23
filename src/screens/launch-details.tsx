@@ -97,8 +97,8 @@ const LaunchDetails: FC<Props & ComponentId> = ({
           <InfoRow
             iconName="clock-outline"
             iconText="Launch Date"
-            title={formatDateTime(launch.launch_date_utc)}
-            subtitle={timeAgo(launch.launch_date_utc)}
+            title={formatDateTime(launch.launch_date_local)}
+            subtitle={timeAgo(launch.launch_date_local)}
           />
           <InfoRow
             iconName="pin-outline"
