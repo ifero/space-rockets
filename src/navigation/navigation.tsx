@@ -13,22 +13,60 @@ import PadsList, {
   PadsListLayoutName,
 } from '../screens/pads-list';
 import PadDetails, { PadDetailLayoutName } from '../screens/pad-details';
+import React from 'react';
+import StarContextProvider from '../components/star-context';
+import StarsList, {
+  StarsListLayout,
+  StarsListLayoutName,
+} from '../screens/stars-list';
+
+Navigation.registerComponent('StarButton', () =>
+  require('../components/star-button')
+);
 
 export const registerScreens = () => {
   Navigation.events().registerAppLaunchedListener(() => {
     Navigation.setRoot({
       root: {
         bottomTabs: {
-          children: [launchesTab, padsTab],
+          children: [launchesTab, padsTab, starsTab],
         },
       },
     });
   });
 
   Navigation.registerComponent(LaunchesListLayoutName, () => LaunchesList);
-  Navigation.registerComponent(LaunchDetailLayoutName, () => LaunchDetails);
+  Navigation.registerComponent(
+    LaunchDetailLayoutName,
+    () => props =>
+      (
+        <StarContextProvider>
+          <LaunchDetails {...props} />
+        </StarContextProvider>
+      ),
+    () => LaunchDetails
+  );
   Navigation.registerComponent(PadsListLayoutName, () => PadsList);
-  Navigation.registerComponent(PadDetailLayoutName, () => PadDetails);
+  Navigation.registerComponent(
+    PadDetailLayoutName,
+    () => props =>
+      (
+        <StarContextProvider>
+          <PadDetails {...props} />
+        </StarContextProvider>
+      ),
+    () => PadDetails
+  );
+  Navigation.registerComponent(
+    StarsListLayoutName,
+    () => props =>
+      (
+        <StarContextProvider>
+          <StarsList {...props} />
+        </StarContextProvider>
+      ),
+    () => StarsList
+  );
 };
 
 const bottomTab = (icon: ImageRequireSource) => ({
@@ -70,6 +108,22 @@ const padsTab: LayoutTabsChildren = {
     ],
     options: {
       bottomTab: bottomTab(require('../../assets/icons/bullseye.png')),
+    },
+  },
+};
+
+export const STARS_STACK = 'StarsStack';
+
+const starsTab: LayoutTabsChildren = {
+  stack: {
+    id: STARS_STACK,
+    children: [
+      {
+        component: StarsListLayout(),
+      },
+    ],
+    options: {
+      bottomTab: bottomTab(require('../../assets/icons/star.png')),
     },
   },
 };

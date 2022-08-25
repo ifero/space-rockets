@@ -17,6 +17,7 @@ import { format as timeAgo } from 'timeago.js';
 import YoutubeIframe from 'react-native-youtube-iframe';
 import { InfoRow } from '../components/info-rox';
 import { ComponentId } from '../navigation/types';
+import StarButton from '../components/star-button';
 interface Props {
   flightNumber: number;
 }
@@ -37,7 +38,7 @@ const LaunchDetails: FC<Props & ComponentId> = ({
         },
       });
     }
-  }, [componentId, launch?.mission_name]);
+  }, [componentId, launch?.flight_number, launch?.mission_name]);
 
   if (!launch) {
     return (
@@ -89,6 +90,11 @@ const LaunchDetails: FC<Props & ComponentId> = ({
                 ]}>
                 {launch.launch_success ? 'SUCCESS' : 'FAILURE'}
               </Text>
+              <StarButton
+                type="launch"
+                id={flightNumber.toString()}
+                style={styles.starButton}
+              />
             </View>
           </View>
         </ImageBackground>

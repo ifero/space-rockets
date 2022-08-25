@@ -68,3 +68,10 @@ interface Location {
   latitude: number;
   longitude: number;
 }
+
+export type StarType = 'pad' | 'launch';
+
+export interface StarElement {
+  id: string;
+  type: StarType;
+}
