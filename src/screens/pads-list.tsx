@@ -1,9 +1,9 @@
-import React, { VFC } from 'react';
-import { FlatList, SafeAreaView } from 'react-native';
+import React, { useCallback, VFC } from 'react';
+import { ListRenderItemInfo, SafeAreaView } from 'react-native';
 import { LayoutComponent, Navigation } from 'react-native-navigation';
-import { EmptyState } from '../components/empty-state';
-import { PadListCell } from '../components/pad-list-cell';
-import { Pad } from '../api/types';
+import { PadListCell } from '@components/pad-list-cell';
+import PaginatedList from 'components/elements-list';
+import { Launch, Pad } from '../api/types';
 import { PADS_STACK } from '../navigation/navigation';
 import { usePadsPaginated } from '../api/use-space-x';
 import { PadDetailLayout } from './pad-details';
@@ -19,17 +19,21 @@ const PadsList: VFC = () => {
     Navigation.push(PADS_STACK, PadDetailLayout({ siteId: pad.site_id }));
   };
 
-  if (data === undefined) {
-    return <EmptyState loading />;
-  }
+  const renderItem = useCallback(
+    ({ item }: ListRenderItemInfo<Launch | Pad>) => (
+      <PadListCell pad={item as Pad} onPress={goToPad} />
+    ),
+    []
+  );
+
+  const onEndReached = useCallback(() => setSize(size + 1), [setSize, size]);
 
   return (
     <SafeAreaView>
-      <FlatList
+      <PaginatedList
         data={data?.flat() ?? []}
-        renderItem={item => <PadListCell pad={item.item} onPress={goToPad} />}
-        onEndReached={() => setSize(size + 1)}
-        style={{ height: '100%' }}
+        renderItem={renderItem}
+        onEndReached={onEndReached}
       />
     </SafeAreaView>
   );

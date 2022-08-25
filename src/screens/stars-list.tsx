@@ -1,20 +1,16 @@
 import React, { FC, useCallback, useContext, useEffect, useMemo } from 'react';
-import { FlatList, ListRenderItemInfo, SafeAreaView } from 'react-native';
+import { ListRenderItemInfo, SafeAreaView } from 'react-native';
 import { LayoutComponent, Navigation } from 'react-native-navigation';
-import { EmptyState } from '../components/empty-state';
-import { PadListCell } from '../components/pad-list-cell';
-import { Launch, Pad } from '../api/types';
-import {
-  LAUNCHES_STACK,
-  PADS_STACK,
-  STARS_STACK,
-} from '../navigation/navigation';
-import { useLaunchesPaginated, usePadsPaginated } from '../api/use-space-x';
+import PaginatedList from '@components/elements-list';
+import { PadListCell } from '@components/pad-list-cell';
+import { StarContext } from '@components/star-context';
+import { LaunchListCell } from '@components/launch-list-cell';
+import { useLaunchesPaginated, usePadsPaginated } from 'api/use-space-x';
+import { Launch, Pad } from 'api/types';
+import { STARS_STACK } from 'navigation/navigation';
+import { ComponentId } from 'navigation/types';
 import { LaunchDetailLayout } from './launch-details';
 import { PadDetailLayout } from './pad-details';
-import { StarContext } from '../components/star-context';
-import { LaunchListCell } from '../components/launch-list-cell';
-import { ComponentId } from '../navigation/types';
 
 const PAGE_SIZE = 10;
 
@@ -75,6 +71,7 @@ const StarsList: FC<ComponentId> = ({ componentId }) => {
         return prev;
       }, []);
     }
+    return [];
   }, [elements, padsData, launchesData]);
 
   const onEndReached = useCallback(() => {
@@ -86,20 +83,15 @@ const StarsList: FC<ComponentId> = ({ componentId }) => {
     const listener = {
       componentDidAppear: refreshList,
     };
-    // Register the listener to all events related to our component
+
     const unsubscribe = Navigation.events().registerComponentListener(
       listener,
       componentId
     );
     return () => {
-      // Make sure to unregister the listener during cleanup
       unsubscribe.remove();
     };
   }, [componentId, refreshList]);
-
-  if (padsData === undefined && launchesData === undefined) {
-    return <EmptyState loading />;
-  }
 
   const renderItem = ({ item }: ListRenderItemInfo<Launch | Pad>) => {
     return isPad(item) ? (
@@ -111,11 +103,10 @@ const StarsList: FC<ComponentId> = ({ componentId }) => {
 
   return (
     <SafeAreaView>
-      <FlatList
-        data={data?.flat() ?? []}
-        renderItem={renderItem}
+      <PaginatedList
         onEndReached={onEndReached}
-        style={{ height: '100%' }}
+        data={data}
+        renderItem={renderItem}
       />
     </SafeAreaView>
   );
