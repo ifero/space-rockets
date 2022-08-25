@@ -1,12 +1,12 @@
-import React, { VFC } from 'react';
-import { FlatList, SafeAreaView } from 'react-native';
+import React, { useCallback, VFC } from 'react';
+import { ListRenderItemInfo, SafeAreaView } from 'react-native';
 import { LayoutComponent, Navigation } from 'react-native-navigation';
-import { Launch } from '../api/types';
+import { LaunchListCell } from '@components/launch-list-cell';
+import PaginatedList from 'components/elements-list';
+import { Launch, Pad } from '../api/types';
 import { useLaunchesPaginated } from '../api/use-space-x';
 import { LAUNCHES_STACK } from '../navigation/navigation';
 import { LaunchDetailLayout } from './launch-details';
-import { LaunchListCell } from '../components/launch-list-cell';
-import { EmptyState } from '../components/empty-state';
 
 const PAGE_SIZE = 10;
 
@@ -24,19 +24,21 @@ const LaunchesList: VFC = () => {
     );
   };
 
-  if (data === undefined) {
-    return <EmptyState loading />;
-  }
+  const renderItem = useCallback(
+    ({ item }: ListRenderItemInfo<Launch | Pad>) => (
+      <LaunchListCell launch={item as Launch} onPress={goToLaunch} />
+    ),
+    []
+  );
+
+  const onEndReached = useCallback(() => setSize(size + 1), [setSize, size]);
 
   return (
     <SafeAreaView>
-      <FlatList
+      <PaginatedList
         data={data?.flat() ?? []}
-        renderItem={item => (
-          <LaunchListCell launch={item.item} onPress={goToLaunch} />
-        )}
-        onEndReached={() => setSize(size + 1)}
-        style={{ height: '100%' }}
+        renderItem={renderItem}
+        onEndReached={onEndReached}
       />
     </SafeAreaView>
   );

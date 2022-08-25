@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {
   createContext,
   FC,
@@ -6,6 +5,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StarElement } from '../api/types';
 
 const STAR_KEY = '@pleo/stars';
