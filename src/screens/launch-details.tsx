@@ -9,15 +9,15 @@ import {
   View,
 } from 'react-native';
 import { Layout, Navigation } from 'react-native-navigation';
+import { format as timeAgo } from 'timeago.js';
+import YoutubeIframe from 'react-native-youtube-iframe';
+import { InfoRow } from '@components/info-rox';
+import StarButton from '@components/star-button';
 import { color } from '../util/colors';
 import { useLaunch } from '../api/use-space-x';
 import { styles } from './launch-details.styles';
 import { formatDateTime } from '../util/format-date';
-import { format as timeAgo } from 'timeago.js';
-import YoutubeIframe from 'react-native-youtube-iframe';
-import { InfoRow } from '../components/info-rox';
 import { ComponentId } from '../navigation/types';
-import StarButton from '../components/star-button';
 interface Props {
   flightNumber: number;
 }

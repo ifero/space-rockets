@@ -1,10 +1,12 @@
+import React from 'react';
+import { ImageRequireSource } from 'react-native';
 import { LayoutTabsChildren, Navigation } from 'react-native-navigation';
+import StarContextProvider from '@components/star-context';
 import { color } from '../util/colors';
 import LaunchesList, {
   LaunchesListLayout,
   LaunchesListLayoutName,
 } from '../screens/launches-list';
-import { ImageRequireSource } from 'react-native';
 import LaunchDetails, {
   LaunchDetailLayoutName,
 } from '../screens/launch-details';
@@ -13,15 +15,13 @@ import PadsList, {
   PadsListLayoutName,
 } from '../screens/pads-list';
 import PadDetails, { PadDetailLayoutName } from '../screens/pad-details';
-import React from 'react';
-import StarContextProvider from '../components/star-context';
 import StarsList, {
   StarsListLayout,
   StarsListLayoutName,
 } from '../screens/stars-list';
 
 Navigation.registerComponent('StarButton', () =>
-  require('../components/star-button')
+  require('@components/star-button')
 );
 
 export const registerScreens = () => {

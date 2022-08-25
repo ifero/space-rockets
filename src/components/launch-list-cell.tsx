@@ -7,10 +7,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { format as timeAgo } from 'timeago.js';
 import { color } from '../util/colors';
 import { formatDate } from '../util/format-date';
 import { Launch } from '../api/types';
-import { format as timeAgo } from 'timeago.js';
 
 export const LaunchListCell: FC<{
   launch: Launch;

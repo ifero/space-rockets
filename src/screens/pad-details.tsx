@@ -3,26 +3,34 @@ import {
   ActivityIndicator,
   Platform,
   ScrollView,
+  StyleSheet,
   Text,
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Layout, Navigation } from 'react-native-navigation';
+import { InfoRow } from '@components/info-rox';
+import { LaunchListCell } from '@components/launch-list-cell';
+import { EmptyState } from '@components/empty-state';
+import StarButton from '@components/star-button';
 import { color, randomColor } from '../util/colors';
-import { InfoRow } from '../components/info-rox';
-import { LaunchListCell } from '../components/launch-list-cell';
-import { EmptyState } from '../components/empty-state';
 import { Launch } from '../api/types';
 import { PADS_STACK } from '../navigation/navigation';
 import { usePad, useRecentLaunches } from '../api/use-space-x';
 import { LaunchDetailLayout } from './launch-details';
 import { styles } from './pad-details.styles';
 import { ComponentId } from '../navigation/types';
-import StarButton from '../components/star-button';
 
 interface Props {
   siteId: string;
 }
+
+const innerStyles = StyleSheet.create({
+  marginRight: { marginRight: 8 },
+  marginTop: { marginTop: 24 },
+  height100: { height: 100 },
+  height50: { height: 50 },
+});
 
 const PadDetails: FC<Props & ComponentId> = ({ siteId, componentId }) => {
   const { data: pad } = usePad(siteId, {});
@@ -70,7 +78,7 @@ const PadDetails: FC<Props & ComponentId> = ({ siteId, componentId }) => {
                 style={[
                   styles.badge,
                   { backgroundColor: color.purple500 },
-                  { marginRight: 8 },
+                  innerStyles.marginRight,
                 ]}>
                 {`${pad.attempted_launches}/${pad.successful_launches} SUCCESSFUL`}
               </Text>
@@ -102,7 +110,7 @@ const PadDetails: FC<Props & ComponentId> = ({ siteId, componentId }) => {
             iconText="Vehicles"
             title={pad.vehicles_launched.join(', ')}
             subtitle={' '}
-            style={{ marginTop: 24 }}
+            style={innerStyles.marginTop}
           />
         </View>
 
@@ -124,9 +132,9 @@ const RecentLaunches: FC<{ launches?: Launch[] }> = ({ launches }) => {
     <>
       <Text style={styles.recentLaunches}>{'Recent launches'}</Text>
       {launches === undefined ? (
-        <EmptyState loading style={{ height: 100 }} />
+        <EmptyState loading style={innerStyles.height100} />
       ) : !launches.length ? (
-        <EmptyState text="No recent launches..." style={{ height: 50 }} />
+        <EmptyState text="No recent launches..." style={innerStyles.height50} />
       ) : (
         launches.map(launch => {
           return (
