@@ -29,8 +29,13 @@ const StarButton: FC<Props> = ({ id, type, style }) => {
   }, [addElement, id, isSelected, removeElement, type]);
 
   return (
-    <Pressable onPress={onButtonPress} style={style}>
-      <Icon name="star" color={isSelected ? 'red' : 'grey'} size={24} />
+    <Pressable onPress={onButtonPress} style={style} testID="StarButton">
+      <Icon
+        name="star"
+        color={isSelected ? 'red' : 'grey'}
+        size={24}
+        testID="StarIcon"
+      />
     </Pressable>
   );
 };
