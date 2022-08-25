@@ -1,6 +1,4 @@
 import React from 'react';
-import * as hooks from '../../api/use-space-x';
-import LaunchDetails from '../launch-details';
 import { Navigation } from 'react-native-navigation';
 import {
   fireEvent,
@@ -9,6 +7,8 @@ import {
   waitFor,
 } from '@testing-library/react-native';
 import AsyncStorageMock from '@react-native-async-storage/async-storage/jest/async-storage-mock';
+import LaunchDetails from '../launch-details';
+import * as hooks from '../../api/use-space-x';
 import { StarContextWrapper } from '../../util/test-helper';
 
 AsyncStorageMock.getItem = jest
