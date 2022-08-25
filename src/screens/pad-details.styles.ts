@@ -71,4 +71,7 @@ export const styles = StyleSheet.create({
     paddingTop: 24,
     paddingBottom: 16,
   },
+  starButton: {
+    alignSelf: 'flex-end',
+  },
 });

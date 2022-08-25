@@ -18,6 +18,7 @@ import { usePad, useRecentLaunches } from '../api/use-space-x';
 import { LaunchDetailLayout } from './launch-details';
 import { styles } from './pad-details.styles';
 import { ComponentId } from '../navigation/types';
+import StarButton from '../components/star-button';
 
 interface Props {
   siteId: string;
@@ -82,6 +83,7 @@ const PadDetails: FC<Props & ComponentId> = ({ siteId, componentId }) => {
                 ]}>
                 {pad.status.toUpperCase()}
               </Text>
+              <StarButton id={siteId} type="pad" style={styles.starButton} />
             </View>
           </View>
         </LinearGradient>
